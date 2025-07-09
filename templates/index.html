@@ -1,19 +1,776 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Website Data Saya</title>
-    <!-- Link ke CSS -->
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zio Shop ID - Toko Online Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cart-item:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        #registerModal, #loginModal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Halaman Berhasil Dimuat!</h1>
-        <p>Ini adalah website pertama saya dengan Flask.</p>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-xl font-bold text-indigo-600">Zio Shop ID</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4">
+                        <a href="#" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition-all">Beranda</a>
+                        <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-all">Produk</a>
+                        <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-all">Tentang</a>
+                        <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-all">Kontak</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-indigo-600">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+                    <button id="userMenuButton" class="flex items-center text-sm focus:outline-none">
+                        <span class="hidden md:inline-block mr-1 text-gray-700">Akun Saya</span>
+                        <i class="fas fa-user-circle text-xl text-gray-600"></i>
+                    </button>
+                    <div id="userMenu" class="hidden absolute right-4 mt-12 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="#" id="loginBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Masuk</a>
+                        <a href="#" id="registerBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section text-white">
+        <div class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+                <div class="mb-8 lg:mb-0">
+                    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-4">
+                        Selamat Datang di Zio Shop ID
+                    </h1>
+                    <p class="text-xl text-indigo-100 mb-6">
+                        Temukan produk terbaik dengan harga terbaik hanya untuk Anda.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-gray-100">
+                            Belanja Sekarang
+                        </a>
+                        <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-600">
+                            Lihat Promo
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Ilustrasi e-commerce dengan berbagai produk yang ditampilkan secara modern" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-<body>
-    <!-- ... konten HTML ... -->
-    <!-- Script JS harus di sebelum </body> -->
-    <script src="/static/script.js"></script>
+
+    <!-- Product Categories -->
+    <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mb-2">
+                Kategori Produk
+            </h2>
+            <p class="max-w-2xl mx-auto text-gray-500">
+                Jelajahi berbagai kategori produk yang kami tawarkan
+            </p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-all">
+                <div class="w-16 h-16 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-mobile-alt text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-900">Elektronik</h3>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-all">
+                <div class="w-16 h-16 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-tshirt text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-900">Fashion</h3>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-all">
+                <div class="w-16 h-16 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-home text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-900">Rumah Tangga</h3>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-all">
+                <div class="w-16 h-16 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-book text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-900">Buku</h3>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 text-center cursor-pointer hover:shadow-lg transition-all">
+                <div class="w-16 h-16 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-utensils text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-900">Makanan</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mb-2">
+                Produk Unggulan
+            </h2>
+            <p class="max-w-2xl mx-auto text-gray-500">
+                Produk terbaik pilihan kami untuk Anda
+            </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productsContainer">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full z-50 overflow-y-auto">
+        <div class="p-4 border-b flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">Keranjang Belanja</h3>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="divide-y divide-gray-200" id="cartItems">
+            <!-- Cart items will be loaded here -->
+            <div class="p-4 text-center text-gray-500">
+                Keranjang belanja kosong
+            </div>
+        </div>
+        <div class="p-4 border-t">
+            <div class="flex justify-between mb-2">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-medium" id="cartSubtotal">Rp 0</span>
+            </div>
+            <div class="flex justify-between mb-4">
+                <span class="text-gray-600">Ongkos Kirim</span>
+                <span class="font-medium" id="cartShipping">Rp 0</span>
+            </div>
+            <div class="flex justify-between text-lg font-bold">
+                <span>Total</span>
+                <span id="cartTotal">Rp 0</span>
+            </div>
+            <button onclick="checkout()" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-all">
+                Checkout
+            </button>
+        </div>
+    </div>
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="toggleCart()"></div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Daftar Akun Baru</h3>
+                <button onclick="hideModal('registerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="registerForm">
+                <div class="mb-4">
+                    <label for="registerName" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                    <input type="text" id="registerName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="registerEmail" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="registerEmail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="registerPhone" class="block text-sm font-medium text-gray-700 mb-1">Nomor HP</label>
+                    <input type="tel" id="registerPhone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="registerPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="registerPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="registerConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+                    <input type="password" id="registerConfirmPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-all">
+                    Daftar
+                </button>
+            </form>
+            <div class="mt-4 text-center text-sm">
+                Sudah punya akun? <a href="#" id="showLoginBtn" class="text-indigo-600 hover:text-indigo-800">Masuk di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Masuk ke Akun Anda</h3>
+                <button onclick="hideModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="loginEmail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="rememberMe" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Ingat saya</label>
+                    </div>
+                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800">Lupa password?</a>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-all">
+                    Masuk
+                </button>
+            </form>
+            <div class="mt-4 text-center text-sm">
+                Belum punya akun? <a href="#" id="showRegisterBtn" class="text-indigo-600 hover:text-indigo-800">Daftar di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Zio Shop ID</h3>
+                    <p class="text-sm text-gray-400">
+                        Toko online terpercaya dengan berbagai macam produk berkualitas.
+                    </p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Tentang Kami</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Layanan Pelanggan</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Bantuan</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Hubungi Kami</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Status Pesanan</a></li>
+                        <li><a href="#" class="text-sm text-gray-400 hover:text-white">Pengembalian Produk</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Berlangganan</h3>
+                    <p class="text-sm text-gray-400 mb-2">
+                        Dapatkan info promo dan penawaran terbaru.
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="Alamat email" class="px-3 py-2 text-sm text-gray-800 w-full rounded-l-md focus:outline-none">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded-r-md text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 py-6 text-center text-sm text-gray-400">
+                &copy; 2023 Zio Shop ID. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Current user state
+        let currentUser = null;
+        let cart = [];
+        
+        // Sample products data (in a real app, this would come from backend)
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Smartphone X Pro",
+                price: 8999000,
+                image: "https://placehold.co/300x200",
+                description: "Smartphone flagship dengan kamera terbaik di kelasnya.",
+                category: "Elektronik"
+            },
+            {
+                id: 2,
+                name: "Laptop Ultra Thin",
+                price: 12999000,
+                image: "https://placehold.co/300x200",
+                description: "Laptop ringan dengan performa tinggi dan baterai tahan lama.",
+                category: "Elektronik"
+            },
+            {
+                id: 3,
+                name: "Sepatu Olahraga Premium",
+                price: 1499000,
+                image: "https://placehold.co/300x200",
+                description: "Sepatu olahraga dengan teknologi terbaru untuk kenyamanan maksimal.",
+                category: "Fashion"
+            },
+            {
+                id: 4,
+                name: "Blender Multi Fungsi",
+                price: 899000,
+                image: "https://placehold.co/300x200",
+                description: "Blender dengan berbagai fungsi untuk kebutuhan dapur Anda.",
+                category: "Rumah Tangga"
+            }
+        ];
+
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            setupEventListeners();
+            checkLoginStatus();
+        });
+
+        // Load products to the page
+        function loadProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            
+            sampleProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden product-card transition-all';
+                productCard.innerHTML = `
+                    <div class="p-4">
+                        <img src="${product.image}" alt="${product.name} - ${product.description}" class="w-full h-48 object-cover">
+                        <div class="mt-4">
+                            <h3 class="font-medium text-gray-900">${product.name}</h3>
+                            <p class="mt-1 text-sm text-gray-500">${product.description}</p>
+                            <div class="mt-3 flex justify-between items-center">
+                                <span class="font-bold text-indigo-600">Rp ${product.price.toLocaleString('id-ID')}</span>
+                                <button onclick="addToCart(${product.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md text-sm transition-all">
+                                    Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productCard);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // User menu button
+            document.getElementById('userMenuButton').addEventListener('click', toggleUserMenu);
+            
+            // Register button
+            document.getElementById('registerBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showModal('registerModal');
+                hideUserMenu();
+            });
+            
+            // Login button
+            document.getElementById('loginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showModal('loginModal');
+                hideUserMenu();
+            });
+            
+            // Show register from login
+            document.getElementById('showRegisterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                hideModal('loginModal');
+                showModal('registerModal');
+            });
+            
+            // Show login from register
+            document.getElementById('showLoginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                hideModal('registerModal');
+                showModal('loginModal');
+            });
+            
+            // Register form submission
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerUser();
+            });
+            
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                loginUser();
+            });
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Hide user menu
+        function hideUserMenu() {
+            document.getElementById('userMenu').classList.add('hidden');
+        }
+
+        // Toggle cart sidebar
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('cartOverlay');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                updateCartUI();
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // Show modal
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        // Hide modal
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = sampleProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.product.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    product: product,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            
+            // Show notification
+            showNotification(`${product.name} telah ditambahkan ke keranjang`);
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // Update cart UI in sidebar
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="p-4 text-center text-gray-500">
+                        Keranjang belanja kosong
+                    </div>
+                `;
+                
+                document.getElementById('cartSubtotal').textContent = 'Rp 0';
+                document.getElementById('cartShipping').textContent = 'Rp 0';
+                document.getElementById('cartTotal').textContent = 'Rp 0';
+                return;
+            }
+            
+            let itemsHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.product.price * item.quantity;
+                subtotal += itemTotal;
+                
+                itemsHTML += `
+                    <div class="p-4 cart-item transition-all">
+                        <div class="flex justify-between">
+                            <div class="flex">
+                                <img src="${item.product.image}" alt="${item.product.name}" class="w-16 h-16 object-cover rounded">
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-medium">${item.product.name}</h4>
+                                    <p class="text-xs text-gray-500">${item.product.category}</p>
+                                    <div class="mt-1 flex items-center">
+                                        <button onclick="updateCartItem(${item.product.id}, -1)" class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center">
+                                            <i class="fas fa-minus text-xs"></i>
+                                        </button>
+                                        <span class="mx-2 text-sm">${item.quantity}</span>
+                                        <button onclick="updateCartItem(${item.product.id}, 1)" class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center">
+                                            <i class="fas fa-plus text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-medium">Rp ${(item.product.price * item.quantity).toLocaleString('id-ID')}</p>
+                                <button onclick="removeFromCart(${item.product.id})" class="mt-1 text-xs text-red-500 hover:text-red-700">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const shipping = subtotal > 1000000 ? 0 : 15000;
+            const total = subtotal + shipping;
+            
+            cartItemsContainer.innerHTML = itemsHTML;
+            document.getElementById('cartSubtotal').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('cartShipping').textContent = `Rp ${shipping.toLocaleString('id-ID')}`;
+            document.getElementById('cartTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Update cart item quantity
+        function updateCartItem(productId, change) {
+            const item = cart.find(item => item.product.id === productId);
+            if (!item) return;
+            
+            const newQuantity = item.quantity + change;
+            
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            item.quantity = newQuantity;
+            updateCartUI();
+            updateCartCount();
+        }
+
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.product.id !== productId);
+            updateCartUI();
+            updateCartCount();
+            
+            // Show notification
+            const product = sampleProducts.find(p => p.id === productId);
+            if (product) {
+                showNotification(`${product.name} telah dihapus dari keranjang`);
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-16 transition-transform animate-bounce-in';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('animate-fade-out-up');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        // Register user
+        function registerUser() {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('registerPhone').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            // Simple validation
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                alert('Harap lengkapi semua field');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Password dan konfirmasi password tidak sama');
+                return;
+            }
+            
+            // In a real app, this would be an API call to backend
+            const newUser = {
+                name,
+                email,
+                phone,
+                password // Note: in a real app, never store plain text passwords
+            };
+            
+            currentUser = newUser;
+            
+            // Close modal and update UI
+            hideModal('registerModal');
+            updateUserUI();
+            
+            // Show success message
+            showNotification('Pendaftaran berhasil! Selamat datang, ' + name);
+        }
+
+        // Login user
+        function loginUser() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            if (!email || !password) {
+                alert('Harap lengkapi semua field');
+                return;
+            }
+            
+            // In a real app, this would be an API call to backend with proper authentication
+            // For demo, we'll simulate a successful login
+            currentUser = {
+                name: "Demo User",
+                email: email,
+                phone: "08123456789"
+            };
+            
+            // Close modal and update UI
+            hideModal('loginModal');
+            updateUserUI();
+            
+            // Show success message
+            showNotification('Login berhasil! Selamat datang kembali');
+        }
+
+        // Check login status (in a real app, this would check session/token)
+        function checkLoginStatus() {
+            // Simulating no user logged in initially
+            currentUser = null;
+            updateUserUI();
+        }
+
+        // Update UI based on user status
+        function updateUserUI() {
+            const userMenuBtn = document.getElementById('userMenuButton');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (currentUser) {
+                // User is logged in
+                userMenuBtn.innerHTML = `
+                    <span class="hidden md:inline-block mr-1 text-gray-700">${currentUser.name}</span>
+                    <i class="fas fa-user-circle text-xl text-indigo-600"></i>
+                `;
+                
+                userMenu.innerHTML = `
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Riwayat Belanja</a>
+                    <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Keluar</a>
+                `;
+            } else {
+                // User is not logged in
+                userMenuBtn.innerHTML = `
+                    <span class="hidden md:inline-block mr-1 text-gray-700">Akun Saya</span>
+                    <i class="fas fa-user-circle text-xl text-gray-600"></i>
+                `;
+                
+                userMenu.innerHTML = `
+                    <a href="#" id="loginBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Masuk</a>
+                    <a href="#" id="registerBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Daftar</a>
+                `;
+                
+                // Re-add event listeners to buttons
+                document.getElementById('loginBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showModal('loginModal');
+                    hideUserMenu();
+                });
+                
+                document.getElementById('registerBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showModal('registerModal');
+                    hideUserMenu();
+                });
+            }
+        }
+
+        // Logout user
+        function logout() {
+            currentUser = null;
+            updateUserUI();
+            showNotification('Anda telah keluar');
+            hideUserMenu();
+        }
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja kosong');
+                return;
+            }
+            
+            if (!currentUser) {
+                alert('Harap login terlebih dahulu untuk melakukan checkout');
+                showModal('loginModal');
+                return;
+            }
+            
+            // In a real app, this would be an API call to backend
+            const order = {
+                id: Date.now(),
+                user: currentUser,
+                items: cart,
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            // Show success message
+            showNotification('Pesanan Anda telah diterima! ID Pesanan: #' + order.id);
+            
+            // Clear cart
+            cart = [];
+            updateCartCount();
+            updateCartUI();
+            
+            // Close cart sidebar
+            toggleCart();
+        }
+    </script>
 </body>
 </html>
+
